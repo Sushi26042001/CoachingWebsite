@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import WhatsAppButton from "../WhatsAppButton/WhatsAppButton";
 import { Link, useNavigate } from "react-router-dom";
+import Courses from "../Courses/Courses";
+import PDFResources from "../PDFResources/PDFResources";
+import TopperSection from "../TopperSection/TopperSection";
 
 const IASLandingPage = () => {
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -10,7 +13,7 @@ const IASLandingPage = () => {
   const [openFaq, setOpenFaq] = useState(null);
 
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // handleQuiz function to navigate to Quiz page
   const handleQuiz = () => {
@@ -210,159 +213,14 @@ const navigate = useNavigate();
       </div>
 
       {/* Courses */}
-      <section id="courses" className="max-w-7xl mx-auto px-6 py-16 pb-5" >
-        <h2 className="text-4xl font-bold text-center mb-10 text-blue-700">
-          Our Popular Courses
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {courses.map((c, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2"
-            >
-              <img
-                src={c.image}
-                alt={c.title}
-                className="rounded-t-xl h-48 w-full object-cover"
-              />
-              <div className="p-5">
-                <h3 className="font-semibold text-lg mb-2 text-gray-800">
-                  {c.title}
-                </h3>
-                <p className="text-gray-500 text-sm mb-3">{c.desc}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-blue-600 font-semibold">
-                    {c.duration}
-                  </span>
-                  <button className="bg-blue-600 text-white text-sm px-3 py-1 rounded">
-                    Apply
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+
+      <Courses />
 
       {/* 📚 PDF Resources Section */}
-      <section id="pdf-resources" className="max-w-7xl mx-auto px-6 py-16 pb-20">
-        <h2 className="text-4xl font-bold text-center mb-10 text-blue-700">
-          UPSC Study PDFs & Notes
-        </h2>
-
-        {/* 👇 CHANGED: 4 Cards per row on large screens */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-          {[
-            {
-              title: "UPSC Prelims 2025 Syllabus PDF",
-              desc: "Official syllabus for GS Paper I & II (CSAT).",
-              pdf: "/pdfs/Sushanth.pdf",
-            },
-            {
-              title: "Current Affairs Summary - October 2025",
-              desc: "Monthly compilation of important news and analysis.",
-              pdf: "/pdfs/Current-Affairs-Oct-2025.pdf",
-            },
-            {
-              title: "Ethics Case Studies - Mains 2024",
-              desc: "Solved case studies for UPSC GS Paper IV.",
-              pdf: "/pdfs/Ethics-Case-Studies-2024.pdf",
-            },
-            {
-              title: "UPSC Previous Year Questions (2018–2024)",
-              desc: "All prelims and mains questions with answers.",
-              pdf: "/pdfs/UPSC-Previous-Year-Qs.pdf",
-            },
-            {
-              title: "Geography Notes for Mains",
-              desc: "Concise revision-friendly material by toppers.",
-              pdf: "/pdfs/Geography-Notes.pdf",
-            },
-            {
-              title: "UPSC Essay Paper Strategy",
-              desc: "Tips & tricks for scoring 150+ in essay paper.",
-              pdf: "/pdfs/Essay-Strategy.pdf",
-            },
-            {
-              title: "Indian Polity Summary Notes",
-              desc: "Comprehensive summary of Laxmikanth chapters.",
-              pdf: "/pdfs/Indian-Polity-Notes.pdf",
-            },
-            {
-              title: "Environment & Ecology Compendium",
-              desc: "Essential topics for Prelims & Mains with diagrams.",
-              pdf: "/pdfs/Environment-Ecology.pdf",
-            },
-          ].map((pdf, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col justify-between"
-            >
-              {/* Top: PDF Icon + Title */}
-              <div>
-                <div className="flex items-center mb-3">
-                  <div className="bg-red-100 text-red-600 w-12 h-12 flex items-center justify-center rounded-lg mr-4 text-2xl">
-                    📄
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800 leading-snug">
-                    {pdf.title}
-                  </h3>
-                </div>
-                <p className="text-gray-600 text-sm mb-4">{pdf.desc}</p>
-              </div>
-
-              {/* Bottom: Buttons */}
-              <div className="flex justify-between items-center mt-4">
-                <button
-                  onClick={() => window.open(pdf.pdf, "_blank")}
-                  className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 hover:scale-105 active:scale-95 transition"
-                >
-                  👁️ View
-                </button>
-                <a
-                  href={pdf.pdf}
-                  download
-                  className="bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700 hover:scale-105 active:scale-95 transition"
-                >
-                  📥 Download
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+     <PDFResources/>
 
       {/* 🏆 Toppers Section */}
-      <section
-        id="toppers"
-        className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 text-white text-center"
-      >
-        <h2 className="text-4xl font-bold mb-8">Our Proud Toppers</h2>
-        <div className="flex flex-wrap justify-center gap-8 px-6 animate-pulse-slow">
-          {toppers.map((t, i) => (
-            <div
-              key={i}
-              className="bg-white/10 backdrop-blur-md p-5 rounded-xl shadow-lg w-64 transform hover:scale-105 transition"
-            >
-              <img
-                src={t.image}
-                alt={t.name}
-                className="w-32 h-32 rounded-full mx-auto object-cover mb-4 border-4 border-white shadow"
-              />
-              <p className="text-lg font-semibold">{t.name}</p>
-            </div>
-          ))}
-        </div>
-        <style>{`
-          @keyframes pulse-slow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-          }
-          .animate-pulse-slow {
-            animation: pulse-slow 6s infinite ease-in-out;
-          }
-        `}</style>
-      </section>
+     <TopperSection/>
       {/* 📚 IAS Learning Features Section */}
       <section id="ias-features" className="max-w-7xl mx-auto px-6 pt-16 pb-5">
 
