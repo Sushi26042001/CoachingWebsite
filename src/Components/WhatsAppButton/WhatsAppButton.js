@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const WhatsAppButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const phoneNumber = "917204602590"; // Your WhatsApp number
+  const phoneNumber = "918792783540"; // Your WhatsApp number
   const message = "Hello! I’d like to know more about your services.";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

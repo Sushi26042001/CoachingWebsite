@@ -5,32 +5,32 @@ const Courses = () => {
 
  const courses = [
     {
-      title: "General Studies Prelims",
-      desc: "Full coverage of Prelims syllabus with test series.",
+      title: "UPSC Civil Services (IAS, IPS, IFS, etc.) ",
+      desc: "Comprehensive Prelims, Mains, and Interview guidance. ",
       duration: "3 Months",
       image:
         "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=800&q=80",
     },
     {
-      title: "Mains Advanced Program",
-      desc: "Answer writing & essay improvement sessions.",
+      title: " KPSC – Karnataka Public Service Commission",
+      desc: "Full syllabus coverage with bilingual support (English & Kannada). ",
       duration: "6 Months",
       image:
         "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
     },
     {
-      title: "Optional Subject Coaching",
-      desc: "Expert mentorship for optional subjects.",
+      title: " PSI – Police Sub-Inspector Exam",
+      desc: "Special focus on General Studies, Reasoning, and Current Affairs. ",
       duration: "4 Months",
       image:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+        "https://media.istockphoto.com/id/1409835176/photo/close-up-shot-of-college-student-writing-notes-on-book-at-classroom-concept-of-examination.webp?a=1&b=1&s=612x612&w=0&k=20&c=HkNYn1VongiErpM6ys4fND9E88uTiaAwnLTasc7uEVg=",
     },
     {
-      title: "Interview Guidance",
-      desc: "Mock interviews by senior IAS officers.",
+      title: "Group-C Examinations",
+      desc: "Foundation classes, test series, and conceptual clarity for all major papers.",
       duration: "2 Months",
       image:
-        "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1604872441539-ef1db9b25f92?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGV4YW18ZW58MHx8MHx8fDA%3D",
     },
   ];
 
