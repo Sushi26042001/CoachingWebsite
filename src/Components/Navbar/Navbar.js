@@ -9,7 +9,9 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
         <img
           src="/Logo.jpg"
           alt="Logo"
-          className={`transition-all duration-300 ${scrolled ? "w-10 h-10" : "w-12 h-12"}`}
+          className={`transition-all duration-300 ${
+            scrolled ? "w-14 h-14" : "w-16 h-16"
+          }`}
         />
         <h1
           className={`font-bold text-blue-700 transition-all duration-300 ${
