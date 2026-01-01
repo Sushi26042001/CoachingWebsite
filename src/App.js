@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import IASLandingPage from "./Components/IASLandingPage/IASLandingPage";
 import Settings from "./Components/Settings/Settings";
 import Layout from "./Components/Layout/Layout";
@@ -13,12 +15,28 @@ import FAQSection from "./Components/FAQSection/FAQSection";
 import Footer from "./Components/Footer/Footer";
 import About from "./Components/About/About";
 import Counselling from "./Components/Counselling/Counselling";
+import FreeCounsellingModal from "./Components/FreeCounsellingModal/FreeCounsellingModal";
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(true);
+    }, 10000); // ⏱️ 3 seconds delay
+
+    return () => clearTimeout(timer); // cleanup
+  }, []);
+
   return (
     <Router>
+      {/* Popup */}
+      <FreeCounsellingModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+      />
+
       <Routes>
-        {/* Layout wraps all routes */}
         <Route element={<Layout />}>
           <Route path="/" element={<IASLandingPage />} />
           <Route path="/settings" element={<Settings />} />
