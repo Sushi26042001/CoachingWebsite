@@ -31,26 +31,26 @@ const PDFResources = () => {
               desc: "All prelims and mains questions with answers.",
               pdf: "/pdfs/UPSC-Previous-Year-Qs.pdf",
             },
-            {
-              title: "Geography Notes for Mains",
-              desc: "Concise revision-friendly material by toppers.",
-              pdf: "/pdfs/Geography-Notes.pdf",
-            },
-            {
-              title: "UPSC Essay Paper Strategy",
-              desc: "Tips & tricks for scoring 150+ in essay paper.",
-              pdf: "/pdfs/Essay-Strategy.pdf",
-            },
-            {
-              title: "Indian Polity Summary Notes",
-              desc: "Comprehensive summary of Laxmikanth chapters.",
-              pdf: "/pdfs/Indian-Polity-Notes.pdf",
-            },
-            {
-              title: "Environment & Ecology Compendium",
-              desc: "Essential topics for Prelims & Mains with diagrams.",
-              pdf: "/pdfs/Environment-Ecology.pdf",
-            },
+            // {
+            //   title: "Geography Notes for Mains",
+            //   desc: "Concise revision-friendly material by toppers.",
+            //   pdf: "/pdfs/Geography-Notes.pdf",
+            // },
+            // {
+            //   title: "UPSC Essay Paper Strategy",
+            //   desc: "Tips & tricks for scoring 150+ in essay paper.",
+            //   pdf: "/pdfs/Essay-Strategy.pdf",
+            // },
+            // {
+            //   title: "Indian Polity Summary Notes",
+            //   desc: "Comprehensive summary of Laxmikanth chapters.",
+            //   pdf: "/pdfs/Indian-Polity-Notes.pdf",
+            // },
+            // {
+            //   title: "Environment & Ecology Compendium",
+            //   desc: "Essential topics for Prelims & Mains with diagrams.",
+            //   pdf: "/pdfs/Environment-Ecology.pdf",
+            // },
           ].map((pdf, i) => (
             <div
               key={i}

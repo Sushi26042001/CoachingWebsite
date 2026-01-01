@@ -49,6 +49,7 @@ const IASLandingPage = () => {
     },
   ];
 
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setBannerIndex((prev) => (prev + 1) % banners.length);
@@ -56,6 +57,7 @@ const IASLandingPage = () => {
     return () => clearInterval(timer);
   }, [banners.length]);
 
+  
 
   return (
     <div className="font-sans text-gray-800 bg-gradient-to-br from-blue-50 to-white min-h-screen">
@@ -123,6 +125,8 @@ const IASLandingPage = () => {
      <Footer/>
     </div>
   );
+  
+  
 };
 
 export default IASLandingPage;
