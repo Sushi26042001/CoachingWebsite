@@ -8,6 +8,14 @@ const LearningFeatures = () => {
     navigate("/quiz");
   };
 
+  const handleCurrentAffairs = () => {
+    navigate("/Daily_Current_Affairs");
+  };
+
+  const handleMonthlyAffairs = () => {
+    navigate("/ArticlesSettings");
+  };
+
   return (
     <section id="ias-features" className="px-6 pt-16 pb-5">
       <h2 className="text-4xl font-bold text-center mb-12 text-blue-700">
@@ -19,7 +27,8 @@ const LearningFeatures = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
           {/* Card 1 */}
-          <div className="flex flex-col items-center text-center bg-blue-50 hover:bg-blue-100 p-6 h-40 w-56 rounded-xl shadow-md transition transform hover:-translate-y-1">
+          <div className="flex flex-col items-center text-center bg-blue-50 hover:bg-blue-100 p-6 h-40 w-56 rounded-xl shadow-md transition transform hover:-translate-y-1"
+          onClick={handleCurrentAffairs}>
             <div className="bg-blue-600 text-white w-12 h-12 flex items-center justify-center rounded-full mb-3">
               📰
             </div>
@@ -32,7 +41,8 @@ const LearningFeatures = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="flex flex-col items-center text-center bg-green-50 hover:bg-green-100 p-6 h-40 w-56 rounded-xl shadow-md transition transform hover:-translate-y-1">
+          <div className="flex flex-col items-center text-center bg-green-50 hover:bg-green-100 p-6 h-40 w-56 rounded-xl shadow-md transition transform hover:-translate-y-1"
+            onClick={handleMonthlyAffairs}>
             <div className="bg-green-600 text-white w-12 h-12 flex items-center justify-center rounded-full mb-3">
               ✍️
             </div>
