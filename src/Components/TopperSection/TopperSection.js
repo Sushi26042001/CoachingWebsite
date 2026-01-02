@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const TopperSection = () => {
-     const toppers = [
+  const toppers = [
     {
       name: "Ananya Sharma (AIR 12)",
       image:
@@ -22,19 +22,29 @@ const TopperSection = () => {
       image:
         "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=300&q=80",
     },
+    {
+      name: "Pooja Verma (AIR 88)",
+      image:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+    },
   ];
+
   return (
-    <div>
-        <section
-        id="toppers"
-        className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 text-white text-center"
-      >
-        <h2 className="text-4xl font-bold mb-8">Our Proud Toppers</h2>
-        <div className="flex flex-wrap justify-center gap-8 px-6 animate-pulse-slow">
-          {toppers.map((t, i) => (
+    <section
+      id="toppers"
+      className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 text-white"
+    >
+      <h2 className="text-4xl font-bold mb-10 text-center">
+        Our Proud Toppers
+      </h2>
+
+      {/* Scroll Container */}
+      <div className="relative overflow-hidden">
+        <div className="flex gap-8 animate-scroll hover:[animation-play-state:paused] px-6">
+          {[...toppers, ...toppers].map((t, i) => (
             <div
               key={i}
-              className="bg-white/10 backdrop-blur-md p-5 rounded-xl shadow-lg w-64 transform hover:scale-105 transition"
+              className="min-w-[260px] bg-white/10 backdrop-blur-md p-5 rounded-xl shadow-lg text-center transition-transform hover:scale-105"
             >
               <img
                 src={t.image}
@@ -45,18 +55,26 @@ const TopperSection = () => {
             </div>
           ))}
         </div>
-        <style>{`
-          @keyframes pulse-slow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-          }
-          .animate-pulse-slow {
-            animation: pulse-slow 6s infinite ease-in-out;
-          }
-        `}</style>
-      </section>
-    </div>
-  )
-}
+      </div>
 
-export default TopperSection
+      {/* Animation */}
+      <style>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+          width: max-content;
+        }
+      `}</style>
+    </section>
+  );
+};
+
+export default TopperSection;
