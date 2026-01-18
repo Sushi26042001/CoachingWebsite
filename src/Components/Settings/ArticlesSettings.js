@@ -6,6 +6,8 @@ import {
   X,
   Pencil,
 } from "lucide-react";
+import { ArticlesSettingsApi } from "../../ApiServices/ApiServices";
+import UseNotification from "../../Utils/Notification/UseNotification";
 
 /* ========================= MODAL ========================= */
 const Modal = ({ title, onClose, children }) => (
@@ -105,6 +107,7 @@ const ArticlesSettings = () => {
   const [articleContent, setArticleContent] = useState("");
   const [articleImageFile, setArticleImageFile] = useState(null);
   const [articleImagePreview, setArticleImagePreview] = useState(null);
+  const notify = UseNotification();
 
   /* ---------- ARTICLES LIST ---------- */
   const [articles, setArticles] = useState([]);
@@ -129,25 +132,55 @@ const ArticlesSettings = () => {
   };
 
   /* ---------- SUBMIT ARTICLE ---------- */
-  const submitArticle = (e) => {
-    e.preventDefault();
+const submitArticle = (e) => {
+  e.preventDefault();
 
-    const newArticle = {
-      id: Date.now(),
-      headline: articleHeadline,
-      subHeadlines,
-      content: articleContent,
-      image: articleImagePreview,
-    };
+  // ✅ FormData for multer
+  const formData = new FormData();
+  formData.append("headline", articleHeadline);
+  formData.append("content", articleContent);
 
-    setArticles([...articles, newArticle]);
+  // ✅ subheadlines as array
+  subHeadlines.forEach((s, index) => {
+    formData.append(`subheadlines[${index}]`, s);
+  });
 
-    setArticleHeadline("");
-    setSubHeadlines([]);
-    setArticleContent("");
-    setArticleImageFile(null);
-    setArticleImagePreview(null);
-  };
+  // ✅ image file
+  if (articleImageFile) {
+    formData.append("image", articleImageFile);
+  }
+
+  ArticlesSettingsApi(
+    formData,
+    (res) => {
+      notify.success(res.message); 
+
+
+      // Optional: add to UI table after success
+      const newArticle = {
+        id: Date.now(),
+        headline: articleHeadline,
+        subHeadlines,
+        content: articleContent,
+        image: articleImagePreview,
+      };
+
+      setArticles([...articles, newArticle]);
+
+      // ✅ Clear form
+      setArticleHeadline("");
+      setSubHeadlines([]);
+      setArticleContent("");
+      setArticleImageFile(null);
+      setArticleImagePreview(null);
+    },
+    (err) => {
+       notify.error(err.message); 
+
+    }
+  );
+};
+
 
   /* ---------- DELETE ---------- */
   const removeArticle = (index) => {

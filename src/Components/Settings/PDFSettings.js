@@ -7,6 +7,8 @@ import {
   Eye,
   X,
 } from "lucide-react";
+import { PDFSettingsApi } from "../../ApiServices/ApiServices";
+import UseNotification from "../../Utils/Notification/UseNotification";
 
 /* ========================= MODAL ========================= */
 const Modal = ({ title, onClose, children }) => (
@@ -93,6 +95,7 @@ const PDFSettings = () => {
   const [pdfHeadline, setPdfHeadline] = useState("");
   const [pdfDesc, setPdfDesc] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
+  const notify = UseNotification();
 
   /* ---------- LIST STATE ---------- */
   const [pdfs, setPdfs] = useState([]);
@@ -102,24 +105,42 @@ const PDFSettings = () => {
     setPdfFile(e.target.files[0]);
   };
 
-  const submitPdf = (e) => {
-    e.preventDefault();
+ const submitPdf = (e) => {
+  e.preventDefault();
 
-    if (!pdfFile) return;
+  if (!pdfFile) return;
 
-    const newPdf = {
-      id: Date.now(),
-      headline: pdfHeadline,
-      desc: pdfDesc,
-      url: URL.createObjectURL(pdfFile),
-      uploadedAt: new Date().toISOString(),
-    };
+  // ✅ MULTER PAYLOAD
+  const formData = new FormData();
+  formData.append("headline", pdfHeadline);
+  formData.append("description", pdfDesc);
+  formData.append("file", pdfFile); // multer field
 
-    setPdfs([...pdfs, newPdf]);
-    setPdfHeadline("");
-    setPdfDesc("");
-    setPdfFile(null);
-  };
+  PDFSettingsApi(
+    formData,
+    (res) => {
+      notify.success(res.message); 
+
+      const newPdf = {
+        id: Date.now(),
+        headline: pdfHeadline,
+        desc: pdfDesc,
+        url: URL.createObjectURL(pdfFile), // only for UI preview
+        uploadedAt: new Date().toISOString(),
+      };
+
+      setPdfs([...pdfs, newPdf]);
+      setPdfHeadline("");
+      setPdfDesc("");
+      setPdfFile(null);
+    },
+    (err) => {
+       notify.error(err.message); 
+
+    }
+  );
+};
+
 
   const removePdf = (index) => {
     setPdfs(pdfs.filter((_, i) => i !== index));

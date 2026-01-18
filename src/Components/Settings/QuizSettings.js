@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import {
-  FilePlus,
-  Trash2,
-  Eye,
-  X,
-  Pencil,
-} from "lucide-react";
+import { FilePlus, Trash2, Eye, X, Pencil } from "lucide-react";
+import { QuizSettingsApi } from "../../ApiServices/ApiServices";
+import UseNotification from "../../Utils/Notification/UseNotification";
 
 /* ========================= MODAL ========================= */
 const Modal = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
     <div className="bg-white w-full max-w-6xl rounded-xl shadow-lg flex flex-col">
-      {/* Header */}
       <div className="flex justify-between items-center px-6 py-4 border-b">
         <h2 className="text-xl font-semibold">{title}</h2>
         <button onClick={onClose}>
@@ -19,10 +14,7 @@ const Modal = ({ title, onClose, children }) => (
         </button>
       </div>
 
-      {/* Scrollable Body */}
-      <div className="px-6 py-4 overflow-y-auto max-h-[70vh]">
-        {children}
-      </div>
+      <div className="px-6 py-4 overflow-y-auto max-h-[70vh]">{children}</div>
     </div>
   </div>
 );
@@ -34,8 +26,12 @@ const DataGrid = ({ data, onEdit, onDelete }) => (
       <thead className="bg-blue-900 text-white">
         <tr>
           <th className="px-4 py-3 text-left text-sm font-semibold">Headline</th>
-          <th className="px-4 py-3 text-left text-sm font-semibold">Description</th>
-          <th className="px-4 py-3 text-left text-sm font-semibold">Questions</th>
+          <th className="px-4 py-3 text-left text-sm font-semibold">
+            Description
+          </th>
+          <th className="px-4 py-3 text-left text-sm font-semibold">
+            Questions
+          </th>
           <th className="px-4 py-3 text-left text-sm font-semibold">Actions</th>
         </tr>
       </thead>
@@ -90,6 +86,7 @@ const QuizSettings = () => {
   const [quizHeadline, setQuizHeadline] = useState("");
   const [quizDesc, setQuizDesc] = useState("");
   const [questions, setQuestions] = useState([]);
+  const notify = UseNotification();
 
   /* ---------- QUIZ LIST ---------- */
   const [quizzes, setQuizzes] = useState([]);
@@ -118,10 +115,42 @@ const QuizSettings = () => {
     setQuestions(questions.filter((_, i) => i !== qi));
   };
 
+  /* ---------- API SUCCESS ---------- */
+  const handleSuccess = (res) => {
+       notify.success(res.message);
+
+  };
+
+  /* ---------- API FAILURE ---------- */
+ const handleFailure = (err) => {
+  notify.error(err.message || "Something went wrong");
+};
+
+
   /* ---------- SUBMIT QUIZ ---------- */
   const submitQuiz = (e) => {
     e.preventDefault();
 
+    /* ===== BACKEND PAYLOAD FORMAT ===== */
+    const payload = {
+      headline: quizHeadline,
+      description: quizDesc,
+      questions: questions.map((q) => ({
+        questionText: q.q,
+        option1: q.options[0],
+        option2: q.options[1],
+        option3: q.options[2],
+        option4: q.options[3],
+        correctOption: q.correctIndex + 1, // 1-based
+      })),
+    };
+
+    console.log("FINAL PAYLOAD:", payload);
+
+    /* ===== API CALL ===== */
+    QuizSettingsApi(payload, handleSuccess, handleFailure);
+
+    /* ===== LOCAL TABLE UPDATE ===== */
     const newQuiz = {
       id: Date.now(),
       headline: quizHeadline,
@@ -144,8 +173,6 @@ const QuizSettings = () => {
     <>
       {/* ================= CREATE QUIZ CARD ================= */}
       <div className="bg-white p-6 rounded-xl shadow-sm border relative">
-
-        {/* Eye icon */}
         <button
           onClick={() => setShowModal(true)}
           className="absolute top-5 right-5 text-blue-600 hover:text-blue-800"
@@ -175,7 +202,6 @@ const QuizSettings = () => {
             />
           </div>
 
-          {/* QUESTIONS */}
           <div className="space-y-4">
             <div className="flex bg-gray-50 p-3 rounded justify-between items-center">
               <span className="font-semibold">
