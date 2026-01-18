@@ -15,19 +15,19 @@ const locations = [
     {
       name: "Bangalore",
       institute: "MVP VISHWAKOSHA IAS ACADEMY",
-      address: "1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi - 110060",
+      address: "XGGG+7V9, 5th Main Rd, Govindaraja Nagar Ward, Amarajyothi Nagar, Vijayanagar, Bengaluru, Karnataka 560079",
       landmark: "Adjacent to Gate 5, Karol Bagh Metro Station & Pillar no.103",
       mapLink: "https://maps.app.goo.gl/Qd3YkMoiknKT8J456",
      image: "https://images.unsplash.com/photo-1697130383976-38f28c444292?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFuZ2Fsb3JlfGVufDB8fDB8fHww"
     },
-    {
-      name: "Chennai",
-      institute: "Vajiram & Ravi",
-      address: "Pushkar's Phoenix, Flat No. 2A, Plot No- 2477, 9th Main Road, Anna Nagar, Chennai - 600040",
-      landmark: "Near Anna Nagar Tower Metro / close to Sundaram Medical Foundation, on 9th Main Road",
-      mapLink: "https://maps.app.goo.gl/example",
-      image: "https://images.unsplash.com/photo-1558642084-5b59b63efd47?auto=format&fit=crop&w=800&q=80"
-    }
+    // {
+    //   name: "Chennai",
+    //   institute: "Vajiram & Ravi",
+    //   address: "Pushkar's Phoenix, Flat No. 2A, Plot No- 2477, 9th Main Road, Anna Nagar, Chennai - 600040",
+    //   landmark: "Near Anna Nagar Tower Metro / close to Sundaram Medical Foundation, on 9th Main Road",
+    //   mapLink: "https://maps.app.goo.gl/example",
+    //   image: "https://images.unsplash.com/photo-1558642084-5b59b63efd47?auto=format&fit=crop&w=800&q=80"
+    // }
   ];
 
   return (

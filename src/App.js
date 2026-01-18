@@ -21,6 +21,7 @@ import DashboardSettings from "./Components/Settings/DashboardSettings";
 import PDFSettings from "./Components/Settings/PDFSettings";
 import QuizSettings from "./Components/Settings/QuizSettings";
 import ArticlesSettings from "./Components/Settings/ArticlesSettings";
+import { NotificationProvider } from "./Utils/Notification/NotificationProvider";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -34,6 +35,7 @@ function App() {
   }, []);
 
   return (
+    <NotificationProvider>
     <Router>
       {/* Popup */}
       <FreeCounsellingModal
@@ -56,14 +58,24 @@ function App() {
           <Route path="/Footer" element={<Footer />} />
           <Route path="/About" element={<About />} />
           <Route path="/Counselling" element={<Counselling />} />
-          <Route path="/Daily_Current_Affairs" element={<Daily_Current_Affairs />} />
-          <Route path="/DashboardSettings" element={<DashboardSettings />} />
+          <Route
+            path="/Daily_Current_Affairs"
+            element={<Daily_Current_Affairs />}
+          />
+          <Route
+            path="/DashboardSettings"
+            element={<DashboardSettings />}
+          />
           <Route path="/PDFSettings" element={<PDFSettings />} />
           <Route path="/QuizSettings" element={<QuizSettings />} />
-          <Route path="/ArticlesSettings" element={<ArticlesSettings />} />
+          <Route
+            path="/ArticlesSettings"
+            element={<ArticlesSettings />}
+          />
         </Route>
       </Routes>
     </Router>
+  </NotificationProvider>
   );
 }
 

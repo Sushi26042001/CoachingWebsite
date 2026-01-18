@@ -1,13 +1,26 @@
-// src/Components/Navbar/Navbar.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { LoginApi } from "../../ApiServices/ApiServices";
+import UseNotification from "../../Utils/Notification/UseNotification";
+import { GetErrorMessage } from "../../Utils/Notification/GetErrorMessage";
 
 function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
   const [authMenuOpen, setAuthMenuOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // "signin" | "signup"
   const authRef = useRef(null);
+  const notify = UseNotification();
 
-  // Close dropdown on outside click
+  /* ===== FORM STATE ===== */
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  /* ===== PASSWORD VISIBILITY ===== */
+  const [showPassword, setShowPassword] = useState(false);
+
+  /* ===== CLOSE AUTH DROPDOWN ===== */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (authRef.current && !authRef.current.contains(e.target)) {
@@ -17,6 +30,55 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+
+  
+  /* ===== INPUT HANDLER ===== */
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  /* ===== SUBMIT HANDLER ===== */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (modalType === "signin") {
+      LoginApi(
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        handleSuccess,
+        handleFail
+      );
+    }
+  
+    if (modalType === "signup") {
+      console.log("SIGN UP DATA:", formData);
+    }
+  };
+  
+
+  const handleSuccess = (dataObject) => {
+    const { message, accessToken, refreshToken, userDetails } = dataObject;
+  
+    notify.success(message);
+  
+    // 🔑 MUST MATCH INTERCEPTOR
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("user", JSON.stringify(userDetails));
+  
+    setModalType(false);
+  };
+  
+  
+  const handleFail = (error) => {
+    notify.error(GetErrorMessage(error));
+    setModalType(false);
+  };
+  
+  
 
   return (
     <>
@@ -43,8 +105,6 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-
-          {/* Home */}
           <Link
             to="/"
             className="relative font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 group"
@@ -53,7 +113,6 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
-          {/* Other Links */}
           {["Courses", "Brochure", "About", "Contact"].map((item) => (
             <a
               key={item}
@@ -65,7 +124,6 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
             </a>
           ))}
 
-          {/* Settings */}
           <Link
             to="/settings"
             className="relative font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 group"
@@ -73,10 +131,9 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
             Settings
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
           </Link>
-
         </nav>
 
-        {/* Auth Menu Icon */}
+        {/* Auth Menu */}
         <div ref={authRef} className="relative hidden md:block">
           <button
             onClick={() => setAuthMenuOpen(!authMenuOpen)}
@@ -132,24 +189,32 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden"
           >
+            {/* Header */}
             <div className="bg-gradient-to-br from-sky-100 to-blue-200 py-10 flex flex-col items-center">
               <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md">
                 <span className="text-2xl">↗</span>
               </div>
               <h2 className="mt-4 text-xl font-bold text-gray-800">
-                {modalType === "signin" ? "Sign in with email" : "Sign up with email"}
+                {modalType === "signin"
+                  ? "Sign in with email"
+                  : "Sign up with email"}
               </h2>
               <p className="text-sm text-gray-600 mt-1 text-center px-6">
                 Make a new account to bring your learning journey together. For free.
               </p>
             </div>
 
-            <div className="p-6 space-y-4">
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+
               {modalType === "signup" && (
                 <div className="relative">
                   <input
                     type="text"
+                    name="name"
                     placeholder="Full Name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full rounded-xl border bg-gray-50 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <span className="absolute left-4 top-3.5 text-gray-400">👤</span>
@@ -159,7 +224,10 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full rounded-xl border bg-gray-50 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="absolute left-4 top-3.5 text-gray-400">✉️</span>
@@ -167,33 +235,36 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
 
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full rounded-xl border bg-gray-50 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="absolute left-4 top-3.5 text-gray-400">🔒</span>
-                <span className="absolute right-4 top-3.5 text-gray-400 cursor-pointer">
-                  👁
+                <span
+                  className="absolute right-4 top-3.5 text-gray-400 cursor-pointer select-none"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "🙈" : "👁"}
                 </span>
               </div>
 
-              {modalType === "signin" && (
-                <div className="text-right text-sm">
-                  <button className="text-blue-600 hover:underline">
-                    Forgot password?
-                  </button>
-                </div>
-              )}
-
-              <button className="w-full py-3 rounded-xl bg-gradient-to-r from-gray-800 to-black text-white font-semibold hover:opacity-90 transition">
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-gray-800 to-black text-white font-semibold hover:opacity-90 transition"
+              >
                 {modalType === "signin" ? "Get Started" : "Create Account"}
               </button>
 
+              {/* Bottom toggle text (RESTORED) */}
               <p className="text-center text-sm text-gray-600">
                 {modalType === "signin" ? (
                   <>
                     Don’t have an account?{" "}
                     <button
+                      type="button"
                       onClick={() => setModalType("signup")}
                       className="text-blue-600 font-medium hover:underline"
                     >
@@ -204,6 +275,7 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
                   <>
                     Already have an account?{" "}
                     <button
+                      type="button"
                       onClick={() => setModalType("signin")}
                       className="text-blue-600 font-medium hover:underline"
                     >
@@ -212,7 +284,7 @@ function Navbar({ scrolled, setIsMenuOpen, isMenuOpen }) {
                   </>
                 )}
               </p>
-            </div>
+            </form>
           </div>
         </div>
       )}
